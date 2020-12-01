@@ -16,20 +16,14 @@ char base46_map[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
                      'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'};
 
 char *base64_encode_str(char *plain) {
-    char *base64;
-
-    int length = base64_encode(plain, strlen(plain), &base64);
-    base64[length] = '\0';
-
-    return base64;
+    return base64_encode(plain, strlen(plain));
 }
 
 
-int base64_encode(char *plain, int length, char **destination) {
+char *base64_encode(char *plain, int length) {
     char counts = 0;
     char buffer[3];
     char *cipher = malloc(strlen(plain) * 4 / 3 + 4);
-    *destination = cipher;
     int i, c = 0;
 
     for (i = 0; i < length; i++) {
@@ -55,25 +49,27 @@ int base64_encode(char *plain, int length, char **destination) {
         cipher[c++] = '=';
     }
 
-    return c;
+    cipher[c] = '\0';
+    return cipher;
 }
 
 char *base64_decode_str(char *cipher) {
     char *str;
 
-    int length = base64_decode(cipher, strlen(cipher), &str);
+    int length = base64_decode(cipher, &str);
     str[length] = '\0';
 
     return str;
 }
 
-int base64_decode(char *cipher, int length, char **destination) {
+int base64_decode(char *cipher, char **destination) {
     char counts = 0;
     char buffer[4];
     char *plain = malloc(strlen(cipher) * 3 / 4);
     *destination = plain;
     int i, p = 0;
 
+    int length = strlen(cipher);
     for (i = 0; i < length; i++) {
         char k;
         for (k = 0; k < 64 && base46_map[k] != cipher[i]; k++);

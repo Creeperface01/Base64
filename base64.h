@@ -21,7 +21,7 @@ Encodes ASCCI string into base64 format string
 @param plain ASCII string to be encoded
 @return encoded base64 format string
 ***********************************************/
-int base64_encode(char *plain, int length, char **destination);
+char *base64_encode(char *plain, int length);
 
 
 char *base64_decode_str(char *cipher);
@@ -31,7 +31,7 @@ decodes base64 format string into ASCCI string
 @param plain encoded base64 format string
 @return ASCII string to be encoded
 ***********************************************/
-int base64_decode(char *cipher, int length, char **destination);
+int base64_decode(char *cipher, char **destination);
 
 
 #endif //BASE46_H
